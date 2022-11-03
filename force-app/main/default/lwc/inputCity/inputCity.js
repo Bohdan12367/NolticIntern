@@ -41,7 +41,7 @@ export default class InputCity extends LightningElement {
            });
     }
 
-    handleChange(event) {
+   handleChange(event) {
         this.searchKey = event.target.value;
         console.log(this.searchKey);
     }

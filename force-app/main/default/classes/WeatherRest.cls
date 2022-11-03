@@ -55,4 +55,3 @@ public with sharing class WeatherRest {
         }
     }
 }
-
