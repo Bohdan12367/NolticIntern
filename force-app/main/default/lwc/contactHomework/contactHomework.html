@@ -1,0 +1,19 @@
+<!--
+ - Created by lukas on 21.08.2022.
+ -->
+
+<!-- Contact Homework -->
+<template>
+    <template if:true={contacts.data}>
+        <ul class='slds-p-left_medium'>
+            <template for:each={contacts.data} for:item='contact'>
+                <li key={contact.Id} class='slds-p-bottom_medium'>
+                    <b>Name: </b> {contact.Name} <br>
+                    <b>Title: </b> {contact.Title}<br>
+                    <b>Email: </b><lightning-formatted-email value={contact.Email}></lightning-formatted-email><br>
+                    <b>Phone: </b><lightning-formatted-phone value={contact.Phone}></lightning-formatted-phone>
+                </li>
+            </template>
+        </ul>
+    </template>
+</template>

@@ -1,0 +1,18 @@
+<!--
+ - Created by lukas on 23.08.2022.
+ -->
+
+<!-- Diary -->
+<template>
+    <template if:true={diaries.data}>
+        <ul class='slds-p-left_medium'>
+            <template for:each={diaries.data} for:item='diary'>
+                <li key={diary.Id} class='slds-p-bottom_medium'>
+                    <b>Created Date: </b>{diary.Created_Date__c}<br>
+                    <b>Note: </b> {diary.Note__c}<br>
+<!--                    <lightning-button label="Delete"></lightning-button><br>-->
+                </li>
+            </template>
+        </ul>
+    </template>
+</template>

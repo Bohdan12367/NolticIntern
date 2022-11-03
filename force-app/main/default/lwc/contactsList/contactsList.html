@@ -1,0 +1,21 @@
+<!--
+ - Created by lukas on 21.08.2022.
+ -->
+
+<!-- contactsList -->
+<template>
+    <lightning-card title="Contacts" icon-name="standard:contact">
+        <div class="slds-var-m-around_medium">
+            <c-contact-homework contacts={contacts}></c-contact-homework>
+        </div>
+        <div class="slds-p-left_medium">
+            <lightning-button label="Add Contact" onclick={addContact}></lightning-button>
+        </div>
+        <template if:true={showForm}>
+            <div class="slds-p-left_medium">
+                <lightning-input label='LastName' onchange={handleLastNameChange}></lightning-input>
+                <lightning-button label="Create Contact" onclick={createContact}></lightning-button>
+            </div>
+        </template>
+    </lightning-card>
+</template>
