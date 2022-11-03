@@ -11,11 +11,11 @@
                         <lightning-formatted-rich-text value={weather.Image__c}></lightning-formatted-rich-text>
                     </lightning-layout-item>
                     </div>
-                    <lightning-layout-item class='slds-absolute-center' padding="around-small">
+                    <!-- <lightning-layout-item class="slds-absolute-center" padding="around-small">
                         <p class = 'sizeCity'>{weather.City__c}</p><br>
                         <b>{weather.Temperature__c}°C</b><br>
                         {weather.Date__c}<br>
-                    </lightning-layout-item>
+                    </lightning-layout-item> -->
                     <lightning-layout-item flexibility="auto" padding="around-small">
                         <p>Humidity: </p>
                         {weather.Humidity__c}%<br>
@@ -28,4 +28,6 @@
                 <lightning-button class = 'slds-button button' icon-name="utility:refresh" onclick={getCity}></lightning-button>
             </template>
     </lightning-card>
+
 </template>
+

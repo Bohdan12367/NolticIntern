@@ -22,7 +22,7 @@ export default class InputCity extends LightningElement {
                this.imageURL = result.Image__c;
            })
            .catch(error=>{
-               const event = new ShowToastEvent({
+               const event = new ShowToastEvent( {
                    title: 'Error',
                    variant: 'error',
                    message: error.body.message,
