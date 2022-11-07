@@ -1,12 +1,12 @@
 public with sharing class WeatherRest {
 
-    @AuraEnabled(Cacheable=true)
-    public static Weather__c getWeather(String city){
-        return [SELECT Temperature__c,Pressure__c,Humidity__c,Wind__c,City__c,Date__c,Image__c FROM Weather__c WHERE City__c = :city LIMIT 1];
-    }
+//    @AuraEnabled(Cacheable=true)
+//    public static Weather__c getWeather(String city){
+//        return [SELECT Temperature__c,Pressure__c,Humidity__c,Wind__c,City__c,Date__c,Image__c FROM Weather__c WHERE City__c = :city LIMIT 1];
+//    }
 
-    @AuraEnabled(cacheable=false)
-    public static void weatherReturn(String city) {
+    @AuraEnabled(Cacheable=false)
+    public static Weather__c weatherReturn(String city) {
         String APIKey = 'c840127ab41a64ffc77361a9d11b3ab3';
         String temperature,name,pressure,humidity,speed;
         String endPoint = 'https://api.openweathermap.org/data/2.5/weather?appid='+ APIKey + '&q=' + city;
@@ -17,8 +17,10 @@ public with sharing class WeatherRest {
         request.setMethod('POST');
         response = http.send(request);
         if (response.getStatusCode() == 200) {
-            String jsonResponse = response.getBody();
-            Map<String,Object> allData = (Map<String,Object>)JSON.deserializeUntyped(jsonResponse);
+            //String jsonResponse = response.getBody();
+            //System.debug(jsonResponse);
+            Map<String,Object> allData = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
+            System.debug(allData);
             Map<String,Object> result = (Map<String,Object>)(allData.get('main'));
             Map<String,Object> wind = (Map<String,Object>)(allData.get('wind'));
             temperature = String.valueOf(result.get('temp'));
@@ -30,6 +32,7 @@ public with sharing class WeatherRest {
             Weather__c weather = new Weather__c();
 
             List<Weather__c> existingWeather = [SELECT Temperature__c,Pressure__c,Humidity__c,Wind__c FROM Weather__c WHERE City__c = :city LIMIT 1];
+            System.debug(existingWeather);
             if(!existingWeather.isEmpty()) {
                 Weather__c w = existingWeather[0];
                 w.Temperature__c = temperatureInt - 273.15;
@@ -45,13 +48,7 @@ public with sharing class WeatherRest {
                 weather.Wind__c = speed;
                 insert weather;
             }
-            System.debug(result);
-            System.debug(temperatureInt);
-            System.debug(name);
-            System.debug(pressure);
-            System.debug(humidity);
-            System.debug(speed);
-
         }
+        return [SELECT Temperature__c,Pressure__c,Humidity__c,Wind__c,City__c,Date__c,Image__c FROM Weather__c WHERE City__c = :city LIMIT 1];
     }
 }
