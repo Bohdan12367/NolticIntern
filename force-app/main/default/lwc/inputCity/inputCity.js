@@ -1,9 +1,8 @@
 import {LightningElement,track,wire} from 'lwc';
 
 import sendWeather from '@salesforce/apex/WeatherRest.weatherReturn';
-import getW from '@salesforce/apex/WeatherRest.getWeather';
+//import getW from '@salesforce/apex/WeatherRest.getWeather';
 import {ShowToastEvent} from 'lightning/platformShowToastEvent';
-import {refreshApex} from '@salesforce/apex';
 
 export default class InputCity extends LightningElement {
     searchKey;
@@ -11,37 +10,26 @@ export default class InputCity extends LightningElement {
     @track imageURL;
 
     getCity () {
-        sendWeather ({city: this.searchKey})
-            .then(()=>{
+         sendWeather ({city: this.searchKey})
+            // .then(result=>{
+            //     return getW({city:this.searchKey});
+            //})
+            .then(result=>{
+                this.weather = result;
+                this.imageURL = result.Image__c;
+                console.log('success');
             })
-            .catch(error => console.log(error));
-        getW ({city:this.searchKey})
-           .then(result => {
-               console.log(result);
-               this.weather = result;
-               this.imageURL = result.Image__c;
-           })
-           .catch(error=>{
-               const event = new ShowToastEvent( {
-                   title: 'Error',
-                   variant: 'error',
-                   message: error.body.message,
-               });
-               console.log (JSON.stringify(this.weather));
-               if (this.weather === undefined ) {
-                   console.log(JSON.stringify(this.weather));
-                   this.dispatchEvent (
+            .catch(error =>
+                this.dispatchEvent (
                         new ShowToastEvent ({
                             title: 'Error',
                             variant: 'error',
                             message: 'Please enter valid city',
                         })
-                   )
-               }
-           });
+                ));
+        this.weather = null;
     }
-
-   handleChange(event) {
+    handleChange(event) {
         this.searchKey = event.target.value;
         console.log(this.searchKey);
     }
